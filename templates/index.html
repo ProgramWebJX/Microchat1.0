@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroChat1.0 2024®</title>
+    <style>
+        /* Stilet e faqes */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        h1:hover {
+            transform: scale(1.05);
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .box {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            border-radius: 10px;
+            border: 5px solid #4a4a4a;
+            position: relative;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box::before, .box::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background-color: #4a4a4a;
+            transition: all 0.3s;
+        }
+
+        .box::before {
+            width: 70px;
+            height: 70px;
+            top: 10%;
+            left: 10%;
+        }
+
+        .box::after {
+            width: 50px;
+            height: 50px;
+            bottom: 10%;
+            right: 10%;
+        }
+
+        input[type="text"], select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+
+        button {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+
+        #loginMessage {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #e74c3c;
+        }
+
+        .options {
+            text-align: left;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #chatbot, #interestingStory, #drawingApp, #drawTable {
+            display: none;
+            text-align: center;
+        }
+
+        #chatbot h2, #interestingStory h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        #drawTable {
+            margin-top: 20px;
+        }
+
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+        .filled {
+            background-color: blue;
+        }
+
+        canvas {
+            border: 2px solid #4a4a4a;
+            margin-top: 20px;
+            background-color: #fff;
+            cursor: crosshair;
+        }
+
+        .colorPalette {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .colorButton {
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            border-radius: 50%;
+            border: 2px solid #4a4a4a;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .colorButton:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body onload="showOptions()">
+    <script>
+        function showInterestingStory() {
+            document.getElementById('options').style.display = 'none';
+            document.getElementById('interestingStory').style.display = 'block';
+        }
+
+        function goBack() {
+            document.getElementById('interestingStory').style.display = 'none';
+            document.getElementById('options').style.display = 'block';
+        }
+        function kthehuNeHome() {
+            document.querySelector(".chat-container").style.display = "none"; // fsheh chat-in
+            document.getElementById("options").style.display = "block";       // shfaq opsionet kryesore (nëse ekziston)
+            document.getElementById("messages").innerHTML = "none";               // pastron mesazhet
+            document.getElementById("messageInput").value = "block";               // pastron inputin
+        }
+    </script>
+</head>
+<body>
+
+   
+    
+    
+    <h1>MicroChat1.0 2025®</h1>
+
+    
+    <div class="container">
+     
+<html>
+  <head>
+    
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      
+      <p id="currentTime"></p>
+      <script src="script.js"></script>
+  </body>
+</html>
+        <div class="box"></div>
+
+        <div id="options" class="options">
+            <h2>Opsionet</h2>
+            <button onclick="showChatbot()">Pyetje</button>
+            <button onclick="showDrawingApp()">Pikturo dhe Vizato</button>
+            <button onclick="showArkanoidGame()">Arkanoid Game</button>
+            <button onclick="showDrawTable()">Dinozauri</button>
+            <button onclick="showStory()">Histori Interesante</button>
+        </div>
+    </div>
+
+    <div id="chatbot">
+        <h2>Chatbot</h2>
+       <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MicroChat1.0 - Chat Room</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-container {
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            height: 70vh;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #fafafa;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background-color: #e1e1e1;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .message.user {
+            background-color: #4a4a4a;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .input-area {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .input-area button {
+            background-color: #4a4a4a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .input-area button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div class="chat-container">
+    <div class="messages" id="messages">
+        <!-- Mesazhet do shfaqen këtu -->
+    </div>
+    <div class="input-area">
+        <input type="text" id="messageInput" placeholder="Pyet per githecka!...">
+        <button onclick="sendMessage()">Dërgo</button>
+        <button onclick="kthehu()">Kthehu</button>
+        
+
+  <script>
+   
+
+  </script>
+<script>
+    async function sendMessage() {
+        const input = document.getElementById("messageInput");
+        const text = input.value.trim();
+        if (text === "") return;
+
+        const messagesDiv = document.getElementById("messages");
+
+        const userMsg = document.createElement("div");
+        userMsg.classList.add("message", "user");
+        userMsg.textContent = text;
+        messagesDiv.appendChild(userMsg);
+
+        input.value = "";
+
+        try {
+            const response = await fetch("http://127.0.0.1:5000/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ message: text }),
+            });
+
+            const data = await response.json();
+
+            const botMsg = document.createElement("div");
+            botMsg.classList.add("message");
+            botMsg.textContent = data.reply;
+            messagesDiv.appendChild(botMsg);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        } catch (error) {
+            const errorMsg = document.createElement("div");
+            errorMsg.classList.add("message");
+            errorMsg.textContent = "Gabim gjatë lidhjes me serverin.";
+            messagesDiv.appendChild(errorMsg);
+        }
+    }
+
+    function showChatbot() {
+        document.getElementById("options").style.display = "none";
+        document.getElementById("chatbot").style.display = "block";
+    }
+
+    function kthehu() {
+        document.getElementById("chatbot").style.display = "none";
+        document.getElementById("options").style.display = "block";
+        document.getElementById("messages").innerHTML = "";
+        document.getElementById("messageInput").value = "";
+    }
+</script>
+
+</body>
+</html>
+
+    
+    </div>
+</div>
+
+<script>
+    function sendMessage() {
+        const input = document.getElementById("messageInput");
+        const text = input.value.trim();
+        if (text === "") return;
+
+        const messagesDiv = document.getElementById("messages");
+
+        const msg = document.createElement("div");
+        msg.classList.add("message", "user");
+        msg.textContent = text;
+
+        messagesDiv.appendChild(msg);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        input.value = "";
+
+        // Simulo një përgjigje nga MicroChat
+        setTimeout(() => {
+            const reply = document.createElement("div");
+            reply.classList.add("message");
+            reply.textContent = "MicroChat1.0: Kjo është një përgjigje automatike!";
+            messagesDiv.appendChild(reply);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }, 800);
+    }
+</script>
+
+</body>
+</html>
+
+    </div>
+      
+    <div id="interestingStory">
+        <h2>Histori Interesante</h2>
+        <p>Historia më interesante ndodh kur njeriu zbulon të panjohurën. Albert Einstein dikur tha: "Kurioziteti është më i rëndësishëm se dija."</p>
+        
+        
+        <p>1. Njeriu që Parashikoi Fundin e Titanikut<p>
+        <p>Në vitin 1898, Morgan Robertson shkroi librin "Futility", ku përshkruante një anije të quajtur Titan që u mbyt pas përplasjes me një ajsberg. 14 vjet më vonë, në 1912, Titaniku u mbyt në mënyrë pothuajse identike.<p>
+        <p>2. Bota Shmangu një Luftë Bërthamore për Pak<p>
+        <p>Në vitin 1983, oficeri sovjetik Stanislav Petrov zbuloi një alarm të rremë që paralajmëronte një sulm bërthamor nga SHBA. Ai vendosi të mos raportonte sulmin, duke shmangur një Luftë të Tretë Botërore.<p>
+        <p>3. Eksperimenti që Ndihmoi Zbulimin e Internetit<p>
+        <p>Në vitin 1969, ARPANET bëri dërgimin e parë të një mesazhi midis dy kompjuterësh në distancë. Mesazhi ishte "LO" – përpjekja për të shkruar "LOGIN", por sistemi ra para se të përfundonte fjala. Ky ishte hapi i parë drejt internetit.<p>
+        <p>4. Kompjuteri që Parashikoi Kthimin e Abraham Lincoln<p>
+        <p>Një algoritëm i krijuar nga Universiteti i Indiana-s në 2013 analizoi miliona tekste historike dhe "parashikoi" se një figurë si Abraham Lincoln do të shfaqej sërish në histori. Shkencëtarët besojnë se kjo mund të ndodhë përmes politikës ose AI-së.<p>
+        <p>5. Njeriu që U Zgjua Pas 19 Vitesh<p>
+        <p>Terry Wallis ra në koma pas një aksidenti në 1984 dhe u zgjua papritur në vitin 2003. Mjekët nuk e shpjeguan dot se si truri i tij rifilloi funksionimin pas kaq shumë vitesh.<p>
+        <p>6. Një Njeri që Zgjodhi të Zhdukej<p>
+        <p>Në vitin 1975, Jim Sullivan, një muzikant që kishte publikuar një album të quajtur UFO, u zhduk në shkretëtirën e Nju Meksikos. Askush nuk e gjeti më kurrë.<p>
+        <p>7. Shkencëtari që Zbuloj ADN-në Falë Një Ëndrre<p>
+        <p>Friedrich Kekulé, një kimist gjerman, zbuloi strukturën e benzenit pasi pa një ëndërr me gjarpërin që kafshonte bishtin e tij – një imazh që i dha idenë e formës së unazës së benzenit.<p>
+        <p>8. Miliarderi që Refuzoi të Bënte Para nga një Ide Gjeniale<p>
+        <p>Tim Berners-Lee, shpikësi i World Wide Web, mund të ishte bërë trilioner nëse do ta kishte patentuar shpikjen e tij. Por ai e bëri falas për të gjithë botën.<p>
+        <p>9. Një Djali që Gjeti Familjen Pas 25 Vitesh me Google Earth<p>
+        <p>Saroo Brierley humbi si fëmijë në Indi dhe u adoptua nga një familje në Australi. Pas 25 vitesh, përdori Google Earth për të gjetur shtëpinë e tij të vjetër dhe u ribashkua me familjen biologjike.<p>
+        <p>10. Mesazhi nga Hapësira që Shkencëtarët Ende Nuk e Shpjegojnë<p>
+        <p>Në 1977, radio-teleskopi Big Ear kapi një sinjal misterioz 72-sekondësh nga hapësira i quajtur "Wow! Signal". Deri më sot, askush nuk e di burimin e tij.<p>
+        <button onclick="goBack()">Kthehu</button>
+    
+    
+    </div>
+
+    <div id="drawingApp">
+        <h2>Zgjidh një Ngjyrë dhe Vizatoni</h2>
+        <canvas id="drawingCanvas" width="500" height="400"></canvas>
+
+        <div class="colorPalette">
+            <div class="colorButton" style="background-color: black;" onclick="setColor('black')"></div>
+            <div class="colorButton" style="background-color: red;" onclick="setColor('red')"></div>
+            <div class="colorButton" style="background-color: green;" onclick="setColor('green')"></div>
+            <div class="colorButton" style="background-color: blue;" onclick="setColor('blue')"></div>
+            <div class="colorButton" style="background-color: yellow;" onclick="setColor('yellow')"></div>
+           
+
+  <script>
+    
+  </script>
+        </div>
+
+        <br>
+        <button onclick="clearCanvas()">Fshi Kanavacën</button>
+        <button onclick="kthehu()">Kthehu</button>
+        
+    </div>
+
+    
+    <div id="arkanoidGame" style="display:none; text-align:center;">
+    <h2 style="color:#4a4a4a;">Shmang Makina dhe Fitoni Pikë! 🏁</h2>
+    <div id="gameArea" style="position:relative;width:400px;height:600px;margin:auto;border:4px solid white;background:#222;overflow:hidden;">
+        <div id="playerCar" style="width:50px;height:80px;background:blue;position:absolute;bottom:20px;left:175px;border-radius:10px;"></div>
+    </div>
+    <p id="score" style="color:rgb(23, 196, 0);font-size:20px;margin-top:10px;">Pikët: 0</p>
+    <div id="carControls" style="display: flex; justify-content: space-between; width: 400px; margin: 15px auto 0 auto;">
+        <button class="btn" id="carLeftBtn">⬅ Majtas</button>
+        <button class="btn" id="carRightBtn">Djathtas ➡</button>
+    </div>
+    <button style="margin-top:15px;background:#4a4a4a;color:white;" onclick="showOptions(); stopCarGame();">Kthehu</button>
+</div>
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div id="drawTable">
+    <h2>Dinozauri</h2>
+    <div id="game" 
+         style="position: relative; width: 400px; height: 200px; margin: 20px auto; background-color: #8ecae6; border: 2px solid #219ebc; overflow: hidden;">
+        <div id="player" 
+             style="position: absolute; left: 50px; bottom: 0; width: 50px; height: 50px; background-color: #ffb703; border-radius: 10px; animation: run 0.5s infinite;"></div>
+    </div>
+    <button onclick="kthehu()">Kthehu</button>
+    <div id="gameOver" style="margin-top: 20px; font-size: 24px; color: #d00000; font-weight: bold; display: none;">
+        Lojë mbaroi! Shtypni R ose klikoni për të rifilluar.
+    </div>
+    <style>
+        #game { user-select: none; -webkit-user-select: none; }
+        #player { transition: none; }
+        .jump {
+            animation: jump 0.6s ease;
+        }
+        @keyframes jump {
+            0% { bottom: 0; }
+            30% { bottom: 150px; }
+            50% { bottom: 100px; }
+            70% { bottom: 150px; }
+            100% { bottom: 0; }
+        }
+        .obstacle {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            height: 40px;
+            background-color: #e76f51;
+        }
+        @keyframes run {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+    <script>
+        (function () {
+            const game = document.getElementById('game');
+            const player = document.getElementById('player');
+            const gameOverText = document.getElementById('gameOver');
+            let isJumping = false;
+            let gameOver = false;
+            let gameStarted = false;
+
+            function jump() {
+                if (isJumping || gameOver) return;
+                isJumping = true;
+                player.classList.add('jump');
+                setTimeout(function () {
+                    player.classList.remove('jump');
+                    isJumping = false;
+                }, 600);
+            }
+
+            function createObstacle() {
+                if (gameOver) return;
+                const obstacle = document.createElement('div');
+                obstacle.classList.add('obstacle');
+                obstacle.style.backgroundColor = getRandomColor();
+                game.appendChild(obstacle);
+                let obstaclePos = game.offsetWidth;
+                obstacle.style.left = obstaclePos + 'px';
+                let obstacleInterval = setInterval(function () {
+                    if (gameOver) {
+                        clearInterval(obstacleInterval);
+                        if (obstacle.parentElement === game) {
+                            game.removeChild(obstacle);
+                        }
+                        return;
+                    }
+                    obstaclePos -= 5;
+                    obstacle.style.left = obstaclePos + 'px';
+
+                    // Kollizion
+                    if (obstaclePos < 100 && obstaclePos > 50 && !isJumping) {
+                        clearInterval(obstacleInterval);
+                        endGame();
+                    }
+
+                    if (obstaclePos < -20) {
+                        clearInterval(obstacleInterval);
+                        if (obstacle.parentElement === game) {
+                            game.removeChild(obstacle);
+                        }
+                    }
+                }, 20);
+
+                if (!gameOver) {
+                    setTimeout(createObstacle, Math.random() * 2000 + 1000);
+                }
+            }
+
+            function getRandomColor() {
+                const colors = ['#e76f51', '#2a9d8f', '#f4a261', '#e63946'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            function endGame() {
+                gameOver = true;
+                gameOverText.style.display = 'block';
+            }
+
+            function restartGame() {
+                // Reset lojën pa refresh
+                Array.from(game.querySelectorAll('.obstacle')).forEach(obstacle => game.removeChild(obstacle));
+                gameOver = false;
+                gameStarted = false;
+                gameOverText.style.display = 'none';
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if ((e.code === 'Enter' || e.code === 'Space' || e.code === 'ArrowUp') && !gameOver) {
+                    if (!gameStarted) {
+                        gameStarted = true;
+                        createObstacle();
+                    }
+                    jump();
+                } else if (e.code === 'KeyR' && gameOver) {
+                    restartGame();
+                }
+            });
+
+            game.addEventListener('click', function () {
+                if (gameOver) {
+                    restartGame();
+                } else {
+                    if (!gameStarted) {
+                        gameStarted = true;
+                        createObstacle();
+                    }
+                    jump();
+                }
+            });
+
+            game.addEventListener('touchstart', function (e) {
+                e.preventDefault();
+                if (gameOver) {
+                    restartGame();
+                } else {
+                    if (!gameStarted) {
+                        gameStarted = true;
+                        createObstacle();
+                    }
+                    jump();
+                }
+            }, { passive: false });
+        })();
+    </script>
+</div>
+
+    </div>
+
+    <script>
+        function showOptions() {
+            document.getElementById('options').style.display = 'block';
+        }
+
+        function showChatbot() {
+            document.getElementById('chatbot').style.display = 'block';
+            document.getElementById('interestingStory').style.display = 'none';
+            document.getElementById('drawingApp').style.display = 'none';
+            document.getElementById('drawTable').style.display = 'none';
+        }
+
+        function showStory() {
+            document.getElementById('interestingStory').style.display = 'block';
+            document.getElementById('chatbot').style.display = 'none';
+            document.getElementById('drawingApp').style.display = 'none';
+            document.getElementById('drawTable').style.display = 'none';
+        }
+
+        function showDrawingApp() {
+            document.getElementById('drawingApp').style.display = 'block';
+            document.getElementById('chatbot').style.display = 'none';
+            document.getElementById('interestingStory').style.display = 'none';
+            document.getElementById('drawTable').style.display = 'none';
+        }
+
+        function showArkanoidGame() {
+            // Arkanoid game functionality goes here
+        }
+
+        function showDrawTable() {
+            document.getElementById('drawTable').style.display = 'block';
+            document.getElementById('drawingApp').style.display = 'none';
+            document.getElementById('chatbot').style.display = 'none';
+            document.getElementById('interestingStory').style.display = 'none';
+
+            
+            
+        }
+
+        function askQuestion() {
+            const question = document.getElementById('questionInput').value.trim().toLowerCase();
+            let answer = '';
+
+            switch (question) {
+                case 'si je?':
+                    answer = 'Jam mirë, faleminderit për pyetjen!';
+                    break;
+                case 'cfare eshte ip-ja?':
+                    answer = 'Adresa IP është një grup unik numrash që lejon komunikimin në internet.';
+                    break;
+                default:
+                    answer = 'Më vjen keq, nuk kam një përgjigje për këtë pyetje.';
+                    break;
+            }
+
+            document.getElementById('answerMessage').innerText = answer;
+        }
+
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let currentColor = 'black';
+
+        function setColor(color) {
+            currentColor = color;
+        }
+
+        function startPosition(e) {
+            drawing = true;
+            draw(e);
+        }
+
+        function endPosition() {
+            drawing = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!drawing) return;
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = currentColor;
+
+            let x, y;
+
+            if (e.type.includes('touch')) {
+                e.preventDefault();
+                x = e.touches[0].clientX - canvas.offsetLeft;
+                y = e.touches[0].clientY - canvas.offsetTop;
+            } else {
+                x = e.offsetX;
+                y = e.offsetY;
+            }
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Ngjarjet për përdorim të prekjes (touch events)
+        canvas.addEventListener('touchstart', startPosition);
+        canvas.addEventListener('touchend', endPosition);
+        canvas.addEventListener('touchmove', draw);
+
+        // Ngjarjet për përdorim të miut (mouse events) për kompjuter
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousemove', draw);
+    </script>
+
+</body>
+<script>
+function hideAllSections() {
+    document.getElementById('options').style.display = 'none';
+    document.getElementById('chatbot').style.display = 'none';
+    document.getElementById('interestingStory').style.display = 'none';
+    document.getElementById('drawingApp').style.display = 'none';
+    document.getElementById('drawTable').style.display = 'none';
+    document.getElementById('arkanoidGame').style.display = 'none';
+}
+
+function showOptions() {
+    hideAllSections();
+    document.getElementById('options').style.display = 'block';
+    stopCarGame();
+}
+
+function showChatbot() {
+    hideAllSections();
+    document.getElementById('chatbot').style.display = 'block';
+    stopCarGame();
+}
+
+function showStory() {
+    hideAllSections();
+    document.getElementById('interestingStory').style.display = 'block';
+    stopCarGame();
+}
+
+function showDrawingApp() {
+    hideAllSections();
+    document.getElementById('drawingApp').style.display = 'block';
+    stopCarGame();
+}
+
+function showDrawTable() {
+    hideAllSections();
+    document.getElementById('drawTable').style.display = 'block';
+    stopCarGame();
+}
+
+function showArkanoidGame() {
+    hideAllSections();
+    document.getElementById('arkanoidGame').style.display = 'block';
+    startCarGame();
+}
+
+// KODI I LOJËS ME MAKINA
+let carGameInterval, carGameOver = false, carScore = 0;
+
+function startCarGame() {
+    carScore = 0;
+    carGameOver = false;
+    document.getElementById('score').textContent = "Pikët: 0";
+    const gameArea = document.getElementById('gameArea');
+    Array.from(gameArea.querySelectorAll('.enemyCar')).forEach(car => gameArea.removeChild(car));
+    const playerCar = document.getElementById('playerCar');
+    playerCar.style.left = '175px';
+    document.addEventListener('keydown', movePlayerCar);
+    carGameInterval = setInterval(createEnemyCar, 2000);
+}
+function stopCarGame() {
+    clearInterval(carGameInterval);
+    document.removeEventListener('keydown', movePlayerCar);
+    const gameArea = document.getElementById('gameArea');
+    if (gameArea) {
+        Array.from(gameArea.querySelectorAll('.enemyCar')).forEach(car => gameArea.removeChild(car));
+    }
+    carGameOver = false;
+}
+function movePlayerCar(e) {
+    if (carGameOver) return;
+    const playerCar = document.getElementById('playerCar');
+    const gameArea = document.getElementById('gameArea');
+    let newX = playerCar.offsetLeft;
+    if (e.key === 'ArrowLeft' && newX > 10) newX -= 30;
+    if (e.key === 'ArrowRight' && newX < gameArea.clientWidth - 60) newX += 30;
+    playerCar.style.left = newX + 'px';
+}
+function createEnemyCar() {
+    if (carGameOver) return;
+    const gameArea = document.getElementById('gameArea');
+    const playerCar = document.getElementById('playerCar');
+    const enemyCar = document.createElement('div');
+    enemyCar.classList.add('enemyCar');
+    enemyCar.style.width = '50px';
+    enemyCar.style.height = '80px';
+    enemyCar.style.backgroundColor = 'red';
+    enemyCar.style.position = 'absolute';
+    enemyCar.style.borderRadius = '10px';
+    enemyCar.style.left = Math.random() * (gameArea.clientWidth - 50) + 'px';
+    enemyCar.style.top = '-80px';
+    gameArea.appendChild(enemyCar);
+    let moveInterval = setInterval(() => {
+        if (carGameOver) {
+            clearInterval(moveInterval);
+            if (enemyCar.parentElement === gameArea) gameArea.removeChild(enemyCar);
+            return;
+        }
+        if (parseInt(enemyCar.style.top) > 600) {
+            clearInterval(moveInterval);
+            if (enemyCar.parentElement === gameArea) gameArea.removeChild(enemyCar);
+            carScore++;
+            document.getElementById('score').textContent = "Pikët: " + carScore;
+        } else {
+            enemyCar.style.top = parseInt(enemyCar.style.top) + 5 + 'px';
+        }
+        // Kontroll për përplasje
+        if (
+            enemyCar.offsetTop + 80 > playerCar.offsetTop &&
+            enemyCar.offsetLeft < playerCar.offsetLeft + 50 &&
+            enemyCar.offsetLeft + 50 > playerCar.offsetLeft
+        ) {
+            clearInterval(moveInterval);
+            carGameOver = true;
+            setTimeout(() => {
+                alert('Loja mbaroi! Pikët: ' + carScore);
+                stopCarGame();
+                showOptions();
+            }, 100);
+        }
+    }, 20);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const carLeftBtn = document.getElementById('carLeftBtn');
+    const carRightBtn = document.getElementById('carRightBtn');
+    if (carLeftBtn && carRightBtn) {
+        carLeftBtn.addEventListener('click', () => {
+            movePlayerCar({key: 'ArrowLeft'});
+        });
+        carRightBtn.addEventListener('click', () => {
+            movePlayerCar({key: 'ArrowRight'});
+        });
+        // Për telefon/tablet
+        carLeftBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            movePlayerCar({key: 'ArrowLeft'});
+        });
+        carRightBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            movePlayerCar({key: 'ArrowRight'});
+        });
+    }
+});
+
+function kthehu() {
+    // Fshi të gjitha seksionet
+    document.getElementById('chatbot').style.display = 'none';
+    document.getElementById('interestingStory').style.display = 'none';
+    document.getElementById('drawingApp').style.display = 'none';
+    document.getElementById('drawTable').style.display = 'none';
+    document.getElementById('arkanoidGame').style.display = 'none';
+    // Shfaq vetëm opsionet
+    document.getElementById('options').style.display = 'block';
+    // Ndal lojën e makinave nëse është hapur
+    if (typeof stopCarGame === "function") stopCarGame();
+}
+</script>
+<script>
+async function dergoMesazh() {
+    const input = document.getElementById("mesazhi");
+    const pergjigje = document.getElementById("pergjigja");
+
+    const mesazhi = input.value;
+    input.value = ""; // pastron fushën
+
+    const response = await fetch("/microchat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: mesazhi })
+    });
+
+    const data = await response.json();
+    pergjigje.innerText = data.reply;
+}
+</script>
+
+</body>
+</html>
